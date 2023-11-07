@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import Validate from "../utils/Validate";
 
 const Login = () => {
+  const email=useRef(null);
+  const password=useRef(null);
+  const [errorMsg, setErrorMsg]=useState(null)
   const [signIn, setSignIn] = useState(true);
-  const signInHandler = (e) => {
+
+  const loginBtnHandler=(e)=>{
+    e.preventDefault();
+    const message = Validate(email.current.value,password.current.value);
+    setErrorMsg(message)
+  }
+
+  const signInLinkHandler = (e) => {
     e.preventDefault();
     setSignIn(!signIn);
+    setErrorMsg(null)
   };
 
   return (
@@ -26,15 +38,18 @@ const Login = () => {
           {signIn ? "Sign In" : "Sign Up"}
         </div>
         <input
+          ref={email}
           className="m-4 p-3 w-[75%] bg-[#333333] rounded-lg"
           type="email"
           placeholder="Email address"
         ></input>
         <input
+          ref={password}
           className="my-2 p-3 w-[75%] bg-[#333333] rounded-lg"
           type="password"
           placeholder="Password"
         ></input>
+        <p className="text-red-600 text-lg">{errorMsg}</p>
         {signIn ? null : (
           <input
             className="my-2 p-3 w-[75%] bg-[#333333] rounded-lg"
@@ -42,12 +57,12 @@ const Login = () => {
             placeholder="Name"
           ></input>
         )}
-        <button className="p-3 w-[75%] text-white bg-[#E50914] m-7 hover:bg-red-700 rounded-lg">
+        <button onClick={loginBtnHandler} className="p-3 w-[75%] text-white bg-[#E50914] m-7 hover:bg-red-700 rounded-lg">
           {signIn ? "Log In" : "Sign Up"}
         </button>
         <div className="mt-10">
         {signIn ? "New to Netflix? " : "Already User? "}
-        <button onClick={signInHandler} className="cursor-pointer mb-24 underline">
+        <button onClick={signInLinkHandler} className="cursor-pointer mb-24 underline">
           {signIn ? "Sign Up Now" : "Sign In"}
         </button>
         </div>
