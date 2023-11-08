@@ -1,23 +1,85 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import Validate from "../utils/Validate";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../utils/firebase";
 
 const Login = () => {
-  const email=useRef(null);
-  const password=useRef(null);
-  const [errorMsg, setErrorMsg]=useState(null)
+  const email = useRef(null);
+  const password = useRef(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const [signIn, setSignIn] = useState(true);
 
-  const loginBtnHandler=(e)=>{
+  const loginBtnHandler = (e) => {
     e.preventDefault();
-    const message = Validate(email.current.value,password.current.value);
-    setErrorMsg(message)
-  }
+    const message = Validate(email.current.value, password.current.value);
+    setErrorMsg(message);
+
+    //Signup-------------------
+    if (!signIn) {
+      if (message !== null) return;
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed up
+          const user = userCredential.user;
+          console.log("User Signed Up..................", user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMsg(errorMessage);
+          console.log(
+            "Error while Signup......." + errorCode + "---------" + errorMessage
+          );
+          // ..
+        });
+    } 
+    
+    // SignIn
+    else { 
+      if (message!==null) return;
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log("User Signed Innnnnn..................", user);
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          setErrorMsg(errorMessage);
+          console.log(
+            "Error while SignIn......." +
+              errorCode +
+              "---------" +
+              errorMessage +
+              "............" +
+              error
+          );
+        });
+    }
+  };
 
   const signInLinkHandler = (e) => {
     e.preventDefault();
     setSignIn(!signIn);
-    setErrorMsg(null)
+    setErrorMsg(null);
+    email.current.value=null;
+    password.current.value=null
+    
   };
 
   return (
@@ -57,14 +119,20 @@ const Login = () => {
             placeholder="Name"
           ></input>
         )}
-        <button onClick={loginBtnHandler} className="p-3 w-[75%] text-white bg-[#E50914] m-7 hover:bg-red-700 rounded-lg">
+        <button
+          onClick={loginBtnHandler}
+          className="p-3 w-[75%] text-white bg-[#E50914] m-7 hover:bg-red-700 rounded-lg"
+        >
           {signIn ? "Log In" : "Sign Up"}
         </button>
         <div className="mt-10">
-        {signIn ? "New to Netflix? " : "Already User? "}
-        <button onClick={signInLinkHandler} className="cursor-pointer mb-24 underline">
-          {signIn ? "Sign Up Now" : "Sign In"}
-        </button>
+          {signIn ? "New to Netflix? " : "Already User? "}
+          <button
+            onClick={signInLinkHandler}
+            className="cursor-pointer mb-24 underline"
+          >
+            {signIn ? "Sign Up Now" : "Sign In"}
+          </button>
         </div>
       </form>
     </div>
