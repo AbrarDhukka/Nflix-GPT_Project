@@ -39,7 +39,7 @@ const Login = () => {
           const errorMessage = error.message;
           setErrorMsg(errorMessage);
           console.log(
-            "Error while Signup......." + errorCode + "---------" + errorMessage
+            "Error while Signup---------" + errorCode + "---------" + errorMessage
           );
           // ..
         });
@@ -64,7 +64,7 @@ const Login = () => {
           const errorMessage = error.message;
           setErrorMsg(errorMessage);
           console.log(
-            "Error while SignIn......." +
+            "Error while SignIn------" +
               errorCode +
               "---------" +
               errorMessage +
