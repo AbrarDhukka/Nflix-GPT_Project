@@ -31,7 +31,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
-          console.log("User Signed Up..................", user);
+          console.log("User Signed Up", user);
           navigate("/browse")
         })
         .catch((error) => {
@@ -56,7 +56,7 @@ const Login = () => {
         .then((userCredential) => {
           // Signed in
           const user = userCredential.user;
-          console.log("User Signed Innnnnn..................", user);
+          console.log("User Signed In", user);
           navigate("/browse")
         })
         .catch((error) => {
