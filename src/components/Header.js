@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom"
 
 const Header = () => {
+  
   return (
     <div className="w-full absolute bg-gradient-to from-black z-30">
       <div className="w-[80%]  mx-auto flex justify-between items-center flex-wrap bg-gradient-to from-black">
