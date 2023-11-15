@@ -1,7 +1,22 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../utils/firebase";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const navigate=useNavigate();
+  const user =useSelector((store)=> store.user);
+  const signOutHandler=()=>{
+    signOut(auth).then(() => {
+      // Sign-out successful.
+
+
+    }).catch((error) => {
+      // An error happened.
+    });
+
+  }
   const location = useLocation();
 
   return (
@@ -17,10 +32,10 @@ const Header = () => {
         </div>
         <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
           <div className="m-1 sm:m-3 border p-1 rounded-md text-white">
-            Language
+            {location.pathname === "/" || location.pathname === "/login" ? "Language" : `User - ${user?.displayName}`}
           </div>
 
-          {location.pathname === "/" || "/login" ? (
+          {location.pathname === "/" || location.pathname === "/login" ? (
             <Link to="/login">
               <button className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold">
                 Sign In
@@ -28,7 +43,7 @@ const Header = () => {
             </Link>
           ) : (
             <Link to="/">
-              <button className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold">
+              <button onClick={signOutHandler} className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold">
                 Sign Out
               </button>
             </Link>

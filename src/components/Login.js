@@ -4,16 +4,22 @@ import Validate from "../utils/Validate";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const email = useRef(null);
   const password = useRef(null);
+  const displayName = useRef(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [signIn, setSignIn] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+ 
 
   const loginBtnHandler = (e) => {
     e.preventDefault();
@@ -31,6 +37,17 @@ const Login = () => {
         .then((userCredential) => {
           // Signed up
           const user = userCredential.user;
+          updateProfile(user, {
+            displayName: displayName.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
+          }).then(() => {
+            // Profile updated!
+            const {uid,email,displayName} = user;
+            dispatch(addUser({uid:uid, email:email, displayName: displayName}));
+            // ...
+          }).catch((error) => {
+            // An error occurred
+            // ...
+          });
           console.log("User Signed Up", user);
           navigate("/browse")
         })
@@ -101,6 +118,12 @@ const Login = () => {
         <div className="text-left w-[75%] text-3xl mb-3">
           {signIn ? "Sign In" : "Sign Up"}
         </div>
+        {signIn ? <div></div> : <input
+          ref={displayName}
+          className="m-4 p-3 w-[75%] bg-[#333333] rounded-lg"
+          type="text"
+          placeholder="Full name"
+        ></input>}
         <input
           ref={email}
           className="m-4 p-3 w-[75%] bg-[#333333] rounded-lg"
@@ -114,13 +137,7 @@ const Login = () => {
           placeholder="Password"
         ></input>
         <p className="text-red-600 text-lg">{errorMsg}</p>
-        {signIn ? null : (
-          <input
-            className="my-2 p-3 w-[75%] bg-[#333333] rounded-lg"
-            type="text"
-            placeholder="Name"
-          ></input>
-        )}
+        
         <button
           onClick={loginBtnHandler}
           className="p-3 w-[75%] text-white bg-[#E50914] m-7 hover:bg-red-700 rounded-lg"
