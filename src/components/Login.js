@@ -38,11 +38,11 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           updateProfile(user, {
-            displayName: displayName.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg"
+            displayName: displayName.current.value, photoURL: "https://example.com/jane-q-user/profile.jpg",
           }).then(() => {
             // Profile updated!
             const {uid,email,displayName} = user;
-            dispatch(addUser({uid:uid, email:email, displayName: displayName}));
+            dispatch(addUser({uid:uid, email:email, displayName: displayName,}));
             // ...
           }).catch((error) => {
             // An error occurred
