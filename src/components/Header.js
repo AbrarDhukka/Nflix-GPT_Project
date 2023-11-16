@@ -11,7 +11,7 @@ const Header = () => {
   const user =useSelector((store)=> store.user);
 
   useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
+    const  unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         
         const {uid,email,displayName} = user;
@@ -23,6 +23,9 @@ const Header = () => {
         navigate("/login");
       }
     });
+ 
+    //unsubscribe while component unmount
+    return()=>unsubscribe();
   },[])
   
   
