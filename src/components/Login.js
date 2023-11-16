@@ -49,7 +49,7 @@ const Login = () => {
             // ...
           });
           console.log("User Signed Up", user);
-          navigate("/browse")
+          //navigate("/browse")
         })
         .catch((error) => {
           const errorCode = error.code;
@@ -74,7 +74,7 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log("User Signed In", user);
-          navigate("/browse")
+          //navigate("/browse")
         })
         .catch((error) => {
           const errorCode = error.code;
