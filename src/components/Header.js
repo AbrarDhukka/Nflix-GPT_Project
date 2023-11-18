@@ -53,7 +53,7 @@ const Header = () => {
         </div>
         <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
           <div className="m-1 sm:m-3 border p-1 rounded-md text-white">
-            {location.pathname === "/" || location.pathname === "/login" ? "Language" : `User - ${user?.displayName}`}
+            {location.pathname === "/" || location.pathname === "/login" ? "Language" : `User - ${user?.userData?.displayName}`}
           </div>
 
           {location.pathname === "/" || location.pathname === "/login" ? (
