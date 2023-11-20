@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { toggleGptSearchView } from "../utils/gptSlice";
 import { SUPPORTED_LANGUAGES } from "../utils/constants";
+import { changeLanguage } from "../utils/configSlice";
 
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
- // const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
+  const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -49,7 +50,7 @@ const Header = () => {
   const location = useLocation();
 
   const handleLanguageChange = (e) => {
-    //dispatch(changeLanguage(e.target.value));
+    dispatch(changeLanguage(e.target.value));
   };
 
   return (
@@ -65,8 +66,9 @@ const Header = () => {
         </div>
         <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
 
-        <select
-              className="p-2 m-2 bg-gray-900 text-white"
+        {showGptSearch && (
+            <select
+              className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-gray-900 text-white"
               onChange={handleLanguageChange}
             >
               {SUPPORTED_LANGUAGES.map((lang) => (
@@ -75,11 +77,12 @@ const Header = () => {
                 </option>
               ))}
             </select>
+          )}
           {location.pathname === "/" || location.pathname === "/login" ? (
             <div></div>
           ) : (
             <button onClick={handleGptSearchClick} className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold">
-              GPT Search
+             {showGptSearch ? "Homepage":"GPT search"}
             </button>
           )}
           <div className="m-1 sm:m-3 border p-1 rounded-md text-white">
