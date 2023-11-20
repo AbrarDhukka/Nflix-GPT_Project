@@ -4,18 +4,19 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
+import { toggleGptSearchView } from "../utils/gptSlice";
 
 const Header = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user =useSelector((store)=> store.user);
+  const user = useSelector((store) => store.user);
+ // const showGptSearch = useSelector((store) => store.gpt.showGptSearch);
 
-  useEffect(()=>{
-    const  unsubscribe = onAuthStateChanged(auth, (user) => {
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        
-        const {uid,email,displayName} = user;
-        dispatch(addUser({uid:uid, email:email, displayName: displayName}));
+        const { uid, email, displayName } = user;
+        dispatch(addUser({ uid: uid, email: email, displayName: displayName }));
         navigate("/browse");
       } else {
         dispatch(removeUser());
@@ -23,21 +24,27 @@ const Header = () => {
         navigate("/login");
       }
     });
- 
-    //unsubscribe while component unmount
-    return()=>unsubscribe();
-  },[])
-  
-  
-  const signOutHandler=()=>{
-    signOut(auth).then(() => {
-      // Sign-out successful.
-      navigate("/")
-    }).catch((error) => {
-      // An error happened.
-    });
 
-  }
+    //unsubscribe while component unmount
+    return () => unsubscribe();
+  }, []);
+
+  const handleGptSearchClick = () => {
+    // Toggle GPT Search
+    dispatch(toggleGptSearchView());
+  };
+
+
+  const signOutHandler = () => {
+    signOut(auth)
+      .then(() => {
+        // Sign-out successful.
+        navigate("/");
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
   const location = useLocation();
 
   return (
@@ -52,8 +59,17 @@ const Header = () => {
           </Link>
         </div>
         <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
+          {location.pathname === "/" || location.pathname === "/login" ? (
+            <div></div>
+          ) : (
+            <button onClick={handleGptSearchClick} className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold">
+              GPT Search
+            </button>
+          )}
           <div className="m-1 sm:m-3 border p-1 rounded-md text-white">
-            {location.pathname === "/" || location.pathname === "/login" ? "Language" : `User - ${user?.userData?.displayName}`}
+            {location.pathname === "/" || location.pathname === "/login"
+              ? "Language"
+              : `User - ${user?.userData?.displayName}`}
           </div>
 
           {location.pathname === "/" || location.pathname === "/login" ? (
@@ -64,7 +80,10 @@ const Header = () => {
             </Link>
           ) : (
             <Link to="/">
-              <button onClick={signOutHandler} className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold">
+              <button
+                onClick={signOutHandler}
+                className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold"
+              >
                 Sign Out
               </button>
             </Link>
