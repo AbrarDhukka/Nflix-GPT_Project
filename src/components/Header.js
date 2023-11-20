@@ -5,6 +5,7 @@ import { auth } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { toggleGptSearchView } from "../utils/gptSlice";
+import { SUPPORTED_LANGUAGES } from "../utils/constants";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -47,9 +48,13 @@ const Header = () => {
   };
   const location = useLocation();
 
+  const handleLanguageChange = (e) => {
+    //dispatch(changeLanguage(e.target.value));
+  };
+
   return (
-    <div className="w-full absolute bg-gradient-to from-black z-30">
-      <div className="w-[80%]  mx-auto flex justify-between items-center flex-wrap bg-gradient-to from-black">
+    <div className="w-full absolute bg-gradient-to-b from-black z-30">
+      <div className="w-[80%]  mx-auto flex justify-between items-center flex-wrap">
         <div className="w-36 sm:w-44">
           <Link to="/">
             <img
@@ -59,6 +64,17 @@ const Header = () => {
           </Link>
         </div>
         <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
+
+        <select
+              className="p-2 m-2 bg-gray-900 text-white"
+              onChange={handleLanguageChange}
+            >
+              {SUPPORTED_LANGUAGES.map((lang) => (
+                <option key={lang.identifier} value={lang.identifier}>
+                  {lang.name}
+                </option>
+              ))}
+            </select>
           {location.pathname === "/" || location.pathname === "/login" ? (
             <div></div>
           ) : (
