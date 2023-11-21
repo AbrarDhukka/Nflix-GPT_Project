@@ -28,7 +28,7 @@ const GptSearchBar = () => {
     // Make an API call to GPT API and get Movie Results
 
 
-    //==================================================================================
+    //=============================
     const gptQuery =
       "Act as a Movie Recommendation system and suggest some movies for the query : " +
       searchText.current.value +
