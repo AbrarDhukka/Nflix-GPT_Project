@@ -27,7 +27,6 @@ const GptSearchBar = () => {
     console.log(searchText.current.value);
     // Make an API call to GPT API and get Movie Results
 
-
     //=============================
     const gptQuery =
       "Act as a Movie Recommendation system and suggest some movies for the query : " +
@@ -38,9 +37,6 @@ const GptSearchBar = () => {
       messages: [{ role: "user", content: gptQuery }],
       model: "gpt-3.5-turbo",
     });
-    //===============================
-
- 
 
     if (!gptResults.choices) {
       // TODO: Write Error Handling
@@ -52,6 +48,8 @@ const GptSearchBar = () => {
     const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");
 
     // ["Andaz Apna Apna", "Hera Pheri", "Chupke Chupke", "Jaane Bhi Do Yaaro", "Padosan"]
+
+    //===============================
 
     // For each movie I will search TMDB API
 
