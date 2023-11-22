@@ -27,7 +27,7 @@ const GptSearchBar = () => {
     console.log(searchText.current.value);
     // Make an API call to GPT API and get Movie Results
 
-    //=============================
+    //==========================================================
     const gptQuery =
       "Act as a Movie Recommendation system and suggest some movies for the query : " +
       searchText.current.value +
@@ -49,7 +49,7 @@ const GptSearchBar = () => {
 
     // ["Andaz Apna Apna", "Hera Pheri", "Chupke Chupke", "Jaane Bhi Do Yaaro", "Padosan"]
 
-    //===============================
+    //============================================================
 
     // For each movie I will search TMDB API
     const promiseArray = gptMovies.map((movie) => searchMovieTMDB(movie));
