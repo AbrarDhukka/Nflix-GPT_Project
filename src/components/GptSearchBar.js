@@ -64,9 +64,11 @@ const GptSearchBar = () => {
 
     if (!gptResults.choices) {
       // TODO: Write Error Handling
+      return(
       <div>
         <p>Sorry for the inconvenience. API calls seem to have reached their limit</p>
       </div>
+      )
     }
 
     console.log(gptResults.choices?.[0]?.indianRetroFunnyMovies?.content);
