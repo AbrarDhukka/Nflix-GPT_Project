@@ -27,76 +27,33 @@ const GptSearchBar = () => {
     console.log(searchText.current.value);
     // Make an API call to GPT API and get Movie Results
 
-    //=============================
-    // const gptQuery =
-    //   "Act as a Movie Recommendation system and suggest some movies for the query : " +
-    //   searchText.current.value +
-    //   ". only give me names of 5 movies, comma seperated like the example result given ahead. Example Result: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya";
+    //==========================================================
+    const gptQuery =
+      "Act as a Movie Recommendation system and suggest some movies for the query : " +
+      searchText.current.value +
+      ". only give me names of 5 movies, comma seperated like the example result given ahead. Example Result: Gadar, Sholay, Don, Golmaal, Koi Mil Gaya";
 
-    // const gptResults = await openai.chat.completions.create({
-    //   messages: [{ role: "user", content: gptQuery }],
-    //   model: "gpt-3.5-turbo",
-    // });
-    //===============================
-
-    const gptResults = {
-      choices: [
-        {
-          indianRetroFunnyMovies: {
-            content:
-              "Andaz Apna Apna, Hera Pheri, Chupke Chupke, Jaane Bhi Do Yaaro, Padosan",
-          },
-        },
-        {
-          top5SRKMoviesBollywood: {
-            content:
-              "DDLJ (Dilwale Dulhania Le Jayenge), Kabhi Khushi Kabhie Gham, Dil To Pagal Hai, My Name is Khan, Chak De! India",
-          },
-        },
-        {
-          top5ActionMoviesBollywood: {
-            content:
-              "Baahubali, The Beginning, Dhoom 2, War, Singham, Uri: The Surgical Strike",
-          },
-        },
-      ],
-    };
+    const gptResults = await openai.chat.completions.create({
+      messages: [{ role: "user", content: gptQuery }],
+      model: "gpt-3.5-turbo",
+    });
 
     if (!gptResults.choices) {
       // TODO: Write Error Handling
-      return(
-      <div>
-        <p>Sorry for the inconvenience. API calls seem to have reached their limit</p>
-      </div>
-      )
     }
 
-    console.log(gptResults.choices?.[0]?.indianRetroFunnyMovies?.content);
+    console.log(gptResults.choices?.[0]?.message?.content);
 
     // Andaz Apna Apna, Hera Pheri, Chupke Chupke, Jaane Bhi Do Yaaro, Padosan
-    let gptMovies;
+    const gptMovies = gptResults.choices?.[0]?.message?.content.split(",");
 
-    if (
-      searchText.current.value.toLowerCase() === "indian retro funny movies"
-    ) {
-      gptMovies =
-        gptResults.choices?.[0]?.indianRetroFunnyMovies?.content.split(",");
-    } else if (searchText.current.value.toLowerCase() === "top 5 srk movies") {
-      gptMovies =
-        gptResults.choices?.[1]?.top5SRKMoviesBollywood?.content.split(",");
-    } else if (
-      searchText.current.value.toLowerCase() === "top 5 action movies bollywood"
-    ) {
-      gptMovies =
-        gptResults.choices?.[2]?.top5ActionMoviesBollywood?.content.split(",");
-    }
     // ["Andaz Apna Apna", "Hera Pheri", "Chupke Chupke", "Jaane Bhi Do Yaaro", "Padosan"]
 
+    //============================================================
+
     // For each movie I will search TMDB API
-
     const promiseArray = gptMovies.map((movie) => searchMovieTMDB(movie));
-    // [Promise, Promise, Promise, Promise, Promise]
-
+    
     const tmdbResults = await Promise.all(promiseArray);
 
     console.log(tmdbResults);
@@ -107,7 +64,7 @@ const GptSearchBar = () => {
   };
 
   return (
-    <div className="pt-[35%] md:pt-[10%] flex justify-center">
+    <div className="pt-[45%] md:pt-[10%] flex justify-center">
       <form
         className="w-full md:w-1/2 bg-black grid grid-cols-12"
         onSubmit={(e) => e.preventDefault()}
@@ -115,11 +72,11 @@ const GptSearchBar = () => {
         <input
           ref={searchText}
           type="text"
-          className=" p-4 m-4 col-span-9"
+          className=" p-2 m-2 sm:p-4 sm:m-4 col-span-9"
           placeholder={lang[langKey].gptSearchPlaceholder}
         />
         <button
-          className="col-span-3 m-4 py-2 px-4 bg-red-700 text-white rounded-lg"
+          className="col-span-3  p-2 m-2 sm:p-4 sm:m-4 bg-red-700 text-white rounded-lg"
           onClick={handleGptSearchClick}
         >
           {lang[langKey].search}
