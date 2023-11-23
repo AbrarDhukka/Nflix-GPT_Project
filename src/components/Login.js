@@ -103,9 +103,9 @@ const Login = () => {
     <div>
       <Header></Header>
 
-      <div className=" absolute ">
-        <div className="absolute inset-0 bg-gradient-to-t from-black opacity-80"></div>
-        <div className="absolute inset-0 bg-gradient-to-b from-black opacity-80"></div>
+      <div className=" absolute">
+        <div className="absolute inset-0 bg-gradient-to-t from-black opacity-80 "></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black opacity-80 "></div>
         <img
           className="object-cover w-screen h-screen"
           src="https://assets.nflxext.com/ffe/siteui/vlv3/ab4b0b22-2ddf-4d48-ae88-c201ae0267e2/0efe6360-4f6d-4b10-beb6-81e0762cfe81/IN-en-20231030-popsignuptwoweeks-perspective_alpha_website_large.jpg"

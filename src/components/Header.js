@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../utils/firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, removeUser } from "../utils/userSlice";
 import { toggleGptSearchView } from "../utils/gptSlice";
-import { SUPPORTED_LANGUAGES } from "../utils/constants";
+import { LOGO, SUPPORTED_LANGUAGES } from "../utils/constants";
 import { changeLanguage } from "../utils/configSlice";
 
 const Header = () => {
@@ -53,6 +53,15 @@ const Header = () => {
     dispatch(changeLanguage(e.target.value));
   };
 
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleToggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const menuButtonClass = 'm-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold';
+
   return (
     <div className="w-full absolute bg-gradient-to-b from-black z-30">
       <div className="w-[80%]  mx-auto flex justify-between items-center flex-wrap">
@@ -64,7 +73,7 @@ const Header = () => {
             ></img>
           </Link>
         </div>
-        <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
+        {/* <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
 
         {showGptSearch && (
             <select
@@ -107,10 +116,78 @@ const Header = () => {
               </button>
             </Link>
           )}
-        </div>
+        </div> */}
+
+        <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
+
+{/* Hamburger Menu Button */}
+<button
+  onClick={handleToggleMenu}
+  className={`sm:hidden ${menuButtonClass}`}
+>
+ {isMenuOpen?"🗙":"Menu"}
+</button>
+
+{/* Navigation Items */}
+<div className={`sm:flex items-center ${isMenuOpen ? 'flex' : 'hidden'} flex-wrap`}>
+  {showGptSearch && (
+    <select
+      className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-gray-900 text-white"
+      onChange={handleLanguageChange}
+    >
+      {SUPPORTED_LANGUAGES.map((lang) => (
+        <option key={lang.identifier} value={lang.identifier}>
+          {lang.name}
+        </option>
+      ))}
+    </select>
+  )}
+
+  {location.pathname === "/" || location.pathname === "/login" ? (
+            <div></div>
+          ) : (
+            <button onClick={handleGptSearchClick} className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold">
+             {showGptSearch ? "Homepage":"GPT search"}
+            </button>
+          )}
+          <div className="m-1 sm:m-3 border p-1 rounded-md bg-gray-900 text-white">
+            {location.pathname === "/" || location.pathname === "/login"
+              ? "Language"
+              : `👦 - ${user?.userData?.displayName}`}
+          </div>
+
+
+  {/* ... Other navigation items ... */}
+
+  {/* Sign In/Sign Out Button */}
+  {location.pathname === "/" || location.pathname === "/login" ? (
+    <Link to="/login">
+      <button className={`sm:${menuButtonClass}`}>
+        Sign In
+      </button>
+    </Link>
+  ) : (
+    <Link to="/">
+      <button
+        onClick={signOutHandler}
+        className={`sm:${menuButtonClass}`}
+      >
+        Sign Out
+      </button>
+    </Link>
+  )}
+</div>
+</div>
+
+
       </div>
     </div>
   );
-};
+
+
+
+  };
 
 export default Header;
+
+
