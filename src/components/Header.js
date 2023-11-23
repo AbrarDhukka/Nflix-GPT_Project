@@ -73,50 +73,7 @@ const Header = () => {
             ></img>
           </Link>
         </div>
-        {/* <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
-
-        {showGptSearch && (
-            <select
-              className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-gray-900 text-white"
-              onChange={handleLanguageChange}
-            >
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <option key={lang.identifier} value={lang.identifier}>
-                  {lang.name}
-                </option>
-              ))}
-            </select>
-          )}
-          {location.pathname === "/" || location.pathname === "/login" ? (
-            <div></div>
-          ) : (
-            <button onClick={handleGptSearchClick} className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold">
-             {showGptSearch ? "Homepage":"GPT search"}
-            </button>
-          )}
-          <div className="m-1 sm:m-3 border p-1 rounded-md text-white">
-            {location.pathname === "/" || location.pathname === "/login"
-              ? "Language"
-              : `User - ${user?.userData?.displayName}`}
-          </div>
-
-          {location.pathname === "/" || location.pathname === "/login" ? (
-            <Link to="/login">
-              <button className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold">
-                Sign In
-              </button>
-            </Link>
-          ) : (
-            <Link to="/">
-              <button
-                onClick={signOutHandler}
-                className="m-1 sm:m-3 border p-1 px-3 rounded-md bg-red-600 text-white font-semibold"
-              >
-                Sign Out
-              </button>
-            </Link>
-          )}
-        </div> */}
+      
 
         <div className="m-2 flex justify-between items-center flex-wrap sm:m-3">
 
