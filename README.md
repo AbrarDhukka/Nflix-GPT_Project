@@ -30,6 +30,9 @@
  - Throughout this project, I focused exclusively on front-end development, sharpening my skills in React.js and enhancing my understanding of building robust and engaging user interfaces.
 
 
+### DemoVideo
+![Alt text](src/utils/Screenshots/Nflix-GPT DemoVideo.mp4)
+
 ### Homepage
 ![Alt text](src/utils/Screenshots/HomePage.png)
 
