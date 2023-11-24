@@ -31,7 +31,7 @@
 
 
 ### DemoVideo
-![Alt text](src/utils/Screenshots/Nflix-GPT DemoVideo.mp4)
+![Alt text](src/utils/Screenshots/Nflix-GPT-DemoVideo.mp4)
 
 ### Homepage
 ![Alt text](src/utils/Screenshots/HomePage.png)
