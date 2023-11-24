@@ -1,4 +1,4 @@
-# Nflix-GPT 
+# [Nflix-GPT](https://nflix-gpt.vercel.app/login)
  - a Movie recommendation (AI Based) web app that I developed using React.js!
 
 # Key functionalities that I've implemented:
