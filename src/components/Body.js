@@ -21,12 +21,10 @@ const Body = () => {
     }
   ])
 
-
   return (
     <div>
         <RouterProvider router={approuter}></RouterProvider>
     </div>
   )
 }
-
 export default Body
